@@ -1,0 +1,26 @@
+version: "2.0"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+   
+  django:
+    image: yaneisy/backend:django
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  vue:
+    image: yaneisy/frontend:vue-js
+    ports:
+      - "8080:8080"
+    container_name: vue-ui
+    depends_on:
+      - django
